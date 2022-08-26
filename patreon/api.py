@@ -13,9 +13,10 @@ from six.moves.urllib.parse import urlparse, parse_qs, urlencode
 
 
 class API(object):
-    def __init__(self, access_token):
+    def __init__(self, access_token, proxies):
         super(API, self).__init__()
         self.access_token = access_token
+        self.proxies = proxies
 
     def get_campaigns(self, page_size, cursor=None,  includes=None, fields=None):
         url = 'campaigns'
@@ -124,7 +125,8 @@ class API(object):
             headers={
                 'Authorization': "Bearer {}".format(self.access_token),
                 'User-Agent': user_agent_string(),
-            }
+            },
+            proxies=self.proxies
         )
         return response.json()
 
